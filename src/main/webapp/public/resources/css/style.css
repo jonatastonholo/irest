@@ -1,0 +1,22 @@
+#linkMaskLogin:link {
+	text-decoration: none;
+	font-family: Verdana, sans-serif;
+	color: grey;
+}
+
+#linkMaskLogin:visited {
+	text-decoration: none;
+	font-family: Verdana, sans-serif;
+	color: grey;
+}
+
+
+#linkMaskLogin:hover {
+	text-decoration: none;
+	font-family: Verdana, sans-serif;
+	color: green;
+}
+
+.panelGrid {
+	width: 400px;
+}

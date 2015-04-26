@@ -1,0 +1,58 @@
+@CHARSET "UTF-8";
+
+#mainHeader {
+	font-family: Verdana, sans-serif;
+	color: black;
+	font-size: 12pt;
+	font-weight: bolder;
+}
+
+#linkHeader:link {
+	text-decoration: none;
+	font-family: Verdana, sans-serif;
+	color: black;
+	font-size: 12pt;
+	font-weight: bolder;
+}
+
+#linkHeader:visited {
+	text-decoration: none;
+	font-family: Verdana, sans-serif;
+	color: black;
+	font-size: 12pt;
+	font-weight: bolder;
+}
+
+#userHeader {
+	font-family: Verdana, sans-serif;
+	color: black;
+	font-size: 9pt;
+	font-weight: bolder;
+	padding-right: 10px;
+	padding-top: 10px;
+}
+
+#mainFooter {
+	font-family: Verdana, sans-serif;
+	color: grey;
+	font-size: 6pt;
+	font-weight: bolder;
+}
+
+#linkMask:link {
+	text-decoration: none;
+	font-family: Verdana, sans-serif;
+	color: grey;
+	font-size: 6pt;
+}
+
+#linkMask:visited {
+	text-decoration: none;
+	font-family: Verdana, sans-serif;
+	color: grey;
+	font-size: 6pt;
+}
+
+#divCommandButtons {
+	padding-bottom: 5px;
+}

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui" template="../main.xhtml">
+
+	<ui:define name="content">
+		<f:view>
+			<f:event listener="#{atendimentoMB.onLoad}" type="preRenderView" />
+		</f:view>
+
+		<div align="center">
+			<p:panel id="atendimentoPanel" header="#{labels.pedidos}" rendered="#{webContextHolder.roleCliente}">
+			<p:growl id="messages" showDetail="true" sticky="true" autoUpdate="true"/>
+				<h:form id="atendimentoForm">
+					<!-- DataTable -->
+					<p:dataTable id="atendimentoDataTable" var="atendimento"
+						widgetVar="dataTable" emptyMessage="#{labels.pedido_no_data}"
+						loadingMessage="#{labels.pedido_load}" scrollable="true"
+						scrollHeight="310" rowKey="#{itemPedido.id}"
+						value="#{atendimentoMB.itensPedido}"
+						filteredValue="#{atendimentoMB.filteredIensPedido}">
+						<!-- Header -->
+						<f:facet name="header">
+							<p:outputPanel>
+								<div align="right">
+									<h:outputText value="#{labels.search_all}: " />
+									<p:inputText id="globalFilter"
+										onkeyup="PF('dataTable').filter()" style="width:300px"
+										placeholder="#{labels.global_enter_keyword}" />
+								</div>
+							</p:outputPanel>
+						</f:facet>
+
+						<!-- Columns -->
+						<p:column filterBy="#{itemPedido.item.nome}" headerText="#{labels.item_name}"
+							filterMatchMode="contains">
+							<h:outputText value="#{itemPedido.item.nome}" />
+						</p:column>
+						
+						<p:column filterBy="#{itemPedido.item.valor}" headerText="#{labels.item_price}"
+							filterMatchMode="contains">
+							<h:outputText value="#{itemPedido.item.valor}" />
+						</p:column>
+						
+						<p:column filterBy="#{itemPedido.quantidade}" headerText="#{labels.item_pedido_total}"
+							filterMatchMode="contains">
+							<h:outputText value="#{itemPedido.quantidade}" />
+						</p:column>
+						
+						<p:column filterBy="#{atendimentoMB.getTotalItemPedido(itemPedido)}" headerText="#{labels.item_pedido_quantidade}"
+							filterMatchMode="contains">
+							<h:outputText value="#{atendimentoMB.getTotalItemPedido(itemPedido)}" />
+						</p:column>
+						
+						<p:column filterBy="#{itemPedido.statusPedido}" headerText="#{labels.item_pedido_status}"
+							filterMatchMode="contains">
+							<h:outputText value="#{itemPedido.statusPedido}" />
+						</p:column>
+						
+					</p:dataTable>
+					
+					<p:panelGrid columns="2">
+						<p:outputLabel value="#{labels.item_pedido_total}"/>
+						<p:inputText value="#{atendimentoMB.getTotalAtendimento(atendimentoMB.atendimento)}"/>
+						
+						<p:outputLabel value="#{labels.item_pedido_taxa}"/>
+						<p:inputText value="#{atendimentoMB.getTaxaServico(atendimentoMB.atendimento)}"/>
+						
+						<p:outputLabel value="#{labels.item_pedido_label_total}"/>
+						<p:inputText value="#{atendimentoMB.getTotalTaxaServico(atendimentoMB.atendimento)}"/>
+					
+					</p:panelGrid>
+					
+					
+					<!-- Buttons -->
+					<div align="right" id="divCommandButtons">
+						<p:commandButton value="#{labels.atendimento_menu}"
+									actionListener="#{clienteAddEditMB.cardapio}"
+									style="margin: 130 auto;" ajax="false"
+									onerror="#{clienteAddEditMB.stay()}" />
+					
+
+						<p:commandButton widgetVar="updateButton" id="updateButton"
+							value="#{labels.btn_solicitar_conta}" action="#{atendimentoMB.fecharAtendimento}"
+							update="atendimentoDataTable" 
+							async="true">
+							<p:confirm header="#{labels.confirm}" icon="ui-icon-alert"
+								message="">
+
+							</p:confirm>
+						</p:commandButton>
+
+						<p:confirmDialog global="true" showEffect="fade"
+							hideEffect="explode" header="#{labels.finalizando_conta}">
+							<p:outputPanel autoUpdate="true">
+								<p:panel id="msg">
+									<p:outputLabel value="#{labels.item_pedido_label_total}"/>
+									<p:inputText value="#{atendimentoMB.getTotalTaxaServico(atendimentoMB.atendimento)}"/>
+									
+									<p:outputLabel value="finalizando_formas_pagamento" for="forma"/>
+							        <p:selectOneRadio id="forma" value="#{atendimentoMB.formaPagamento}"  layout="grid" columns="3">
+							            <f:selectItems value="#{atendimentoMB.formasPagamento}" var="c" itemLabel="#{atendimentoMB.getLabelFormaPagamento(forma)}" itemValue="#{forma}"/>
+							        </p:selectOneRadio>
+									
+								</p:panel>
+							</p:outputPanel>
+							<div align="center">
+								<p:commandButton value="#{labels.lb_yes}" type="button"
+									styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+									process="deleteButton" />
+								<p:commandButton value="#{labels.lb_no}" type="button"
+									styleClass="ui-confirmdialog-no" icon="ui-icon-close">
+								</p:commandButton>
+							</div>
+						</p:confirmDialog>
+
+					</div>
+					
+				</h:form>
+			</p:panel>
+		</div>
+	</ui:define>
+</ui:composition>

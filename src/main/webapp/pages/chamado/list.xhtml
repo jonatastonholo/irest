@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui" template="../main.xhtml">
+
+	<ui:define name="content">
+		<f:view>
+			<f:event listener="#{chamadoMB.onLoad}" type="preRenderView" />
+		</f:view>
+
+		<div align="center">
+			<p:panel id="chamadoPanel" header="#{labels.chamado}" rendered="#{webContextHolder.roleAdmin || webContextHolder.roleFuncionario}">
+			<p:growl id="messages" showDetail="true" sticky="true" autoUpdate="true"/>
+				<h:form id="chamadoForm">
+					<!-- Buttons -->
+					<div align="right" id="divCommandButtons">
+
+						<p:commandButton widgetVar="updateButton" id="updateButton"
+							value="#{labels.btn_chamado_atender}" action="#{chamadoMB.update}"
+							update="chamadoDataTable" oncomplete="unselectRows();"
+							async="true">
+							<p:confirm header="#{labels.confirm}" icon="ui-icon-alert"
+								message="">
+
+							</p:confirm>
+						</p:commandButton>
+
+						<p:confirmDialog global="true" showEffect="fade"
+							hideEffect="explode">
+							<p:outputPanel autoUpdate="true">
+								<p:panel id="msg">
+									<h:outputFormat value="#{labels.msg_atender_chamado}"
+										escape="false">
+										<f:param value="#{chamadoMB.selectedChamado.id}" />
+										<f:param value="#{chamadoMB.selectedChamado.mesa.ipTerminal}" />
+									</h:outputFormat>
+								</p:panel>
+							</p:outputPanel>
+							<div align="center">
+								<p:commandButton value="#{labels.lb_yes}" type="button"
+									styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+									process="deleteButton" />
+								<p:commandButton value="#{labels.lb_no}" type="button"
+									styleClass="ui-confirmdialog-no" icon="ui-icon-close">
+								</p:commandButton>
+							</div>
+						</p:confirmDialog>
+
+					</div>
+					<!-- DataTable -->
+					<p:dataTable id="chamadoDataTable" var="chamado"
+						widgetVar="dataTable" emptyMessage="#{labels.chamado_no_data}"
+						loadingMessage="#{labels.chamado_load}" scrollable="true"
+						scrollHeight="310" rowKey="#{chamado.id}" selectionMode="single"
+						selection="#{chamadoMB.selectedChamado}"
+						value="#{chamadoMB.chamados}"
+						filteredValue="#{chamadoMB.filteredChamados}">
+						<!-- Header -->
+						<f:facet name="header">
+							<p:outputPanel>
+								<div align="right">
+									<h:outputText value="#{labels.search_all}: " />
+									<p:inputText id="globalFilter"
+										onkeyup="PF('dataTable').filter()" style="width:300px"
+										placeholder="#{labels.global_enter_keyword}" />
+								</div>
+							</p:outputPanel>
+						</f:facet>
+
+						<!-- Events -->
+						<p:ajax event="rowSelect" listener="#{chamadoMB.selectChamado}"
+							onsuccess="enableButtons();" />
+
+						<p:ajax event="rowUnselect"
+							listener="#{chamadoMB.unselectChamado}"
+							onsuccess="unselectRows();" />
+
+						<!-- Columns -->
+						<p:column filterBy="#{chamado.id}" headerText="#{labels.chamado_id}"
+							filterMatchMode="contains">
+							<h:outputText value="#{chamado.id}" />
+						</p:column>
+
+
+						<p:column filterBy="#{chamado.mesa.ipTerminal}"
+							headerText="#{labels.chamado_mesa_ip}" filterMatchMode="contains">
+							<h:outputText value="#{chamado.mesa.ipTerminal}" />
+						</p:column>
+						
+					</p:dataTable>
+				</h:form>
+			</p:panel>
+		</div>
+	</ui:define>
+</ui:composition>

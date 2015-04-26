@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui" template="../main.xhtml">
+
+	<ui:define name="content">
+		<div align="center">
+			<h:form>
+				<h:inputHidden value="#{usuarioAddEditMB.usuario.id}" />
+				<p:panelGrid columns="2">
+					<f:facet name="header">
+						<p:outputLabel value="#{usuarioAddEditMB.title}" />
+					</f:facet>
+
+					<p:outputLabel value="#{labels.user_role}: *" />
+					<p:selectOneMenu id="lang" value="#{usuarioAddEditMB.userRoleDesc}"
+						effect="fade" disabled="#{usuarioAddEditMB.disableRoleEdit}">
+						<f:selectItems value="#{usuarioAddEditMB.roles}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="#{labels.user_cpf}: *" />
+					<p:inputMask id="cpf" value="#{usuarioAddEditMB.usuario.cpf}"
+						mask="999.999.999-99" required="ture"
+						requiredMessage="#{labels.user_cpf_required}" />
+
+					<p:outputLabel value="#{labels.user_login}: *" />
+					<p:inputText value="#{usuarioAddEditMB.usuario.login}"
+						required="true" requiredMessage="#{labels.user_login_required}" />
+
+					<p:outputLabel for="pwd1" value="#{labels.user_pass}: " />
+					<p:password id="pwd1" value="#{usuarioAddEditMB.usuario.senha}"
+						match="pwd2" label="#{labels.user_pass}" required="true"
+						requiredMessage="#{labels.user_pass_required}" />
+
+					<p:outputLabel for="pwd2" value="#{labels.user_pass_confirm}: " />
+					<p:password id="pwd2" value="#{usuarioAddEditMB.usuario.senha}"
+						label="#{labels.user_pass_confirm}" required="true"
+						validatorMessage="#{user_confirm_pass_required}" />
+
+					<f:facet name="footer">
+						<p:row>
+							<p:outputPanel style="width: 100%; text-align:center"
+								layout="block">
+
+								<p:commandButton value="#{labels.button_save}"
+									action="list.faces" actionListener="#{usuarioAddEditMB.save}"
+									style="margin: 130 auto;" ajax="false"
+									onerror="#{usuarioAddEditMB.stay()}" />
+								<p:commandButton value="#{labels.button_cancel}"
+									action="/pages/usuario/list.faces"
+									actionListener="#{usuarioAddEditMB.cancel}"
+									style="margin: 130 auto;" ajax="false" immediate="true" />
+							</p:outputPanel>
+						</p:row>
+					</f:facet>
+				</p:panelGrid>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+	<ui:composition>
+		<h:form>
+			<p:growl id="messages" showDetail="true" sticky="true" />
+
+			<p:menubar>
+				<p:menuitem value="#{labels.menu_home}" icon="ui-icon-home"
+					action="#{menuMB.home()}" />
+				
+				<p:menuitem value="#{labels.menu_employee}" icon="ui-icon-person"
+					action="#{menuMB.manterFuncionario()}" rendered="#{webContextHolder.roleAdmin || webContextHolder.roleFuncionario}"/>
+				
+				<p:menuitem value="#{labels.menu_customers}" icon="ui-icon-contact"
+					action="#{menuMB.manterCliente()}" rendered="#{webContextHolder.roleAdmin || webContextHolder.roleCliente}"/>
+				
+				<p:menuitem value="#{labels.menu_tables}" icon="ui-icon-clipboard"
+					action="#{menuMB.manterMesas()}" rendered="#{webContextHolder.roleAdmin || webContextHolder.roleFuncionario}"/>
+				
+				<p:menuitem value="#{labels.menu_users}" icon=" ui-icon-wrench" 
+				action="#{menuMB.manterUsuario()}"/>
+				
+				<p:menuitem value="#{labels.menu_itens}" icon="ui-icon-tag" 
+					action="#{menuMB.manterItens()}" rendered="#{webContextHolder.roleAdmin || webContextHolder.roleFuncionario}"/>
+				
+				<p:menuitem value="#{labels.menu_orders}" icon="ui-icon-cart"
+					action="#{menuMB.manterPedido()}" />
+				
+				<p:menuitem value="#{labels.menu_chamado}" icon="ui-icon-tag" 
+					action="#{menuMB.chamado()}" rendered="#{webContextHolder.roleAdmin || webContextHolder.roleFuncionario}"/>
+				
+				<p:menuitem value="#{labels.app_language}" icon="ui-icon-flag"
+					action="#{menuMB.idioma()}" />
+				
+				<p:menuitem value="#{labels.btn_chamar_atendente}" icon="ui-icon-lightbulb"
+					action="#{menuMB.chamarAtendente()}" update="messages" 
+					rendered="#{webContextHolder.roleCliente}"/>
+				
+				<p:menuitem value="#{labels.menu_logout}" icon="ui-icon-extlink"
+					url="/j_spring_security_logout" />
+			</p:menubar>
+		</h:form>
+	</ui:composition>
+</body>
+</html>

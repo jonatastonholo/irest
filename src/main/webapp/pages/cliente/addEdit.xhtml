@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui" template="../main.xhtml">
+
+	<ui:define name="content">
+		<div align="center">
+			<h:form>
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+				<h:inputHidden value="#{clienteAddEditMB.id}" />
+				<h:inputHidden value="#{clienteAddEditMB.tmpCpf}" />
+				<p:panelGrid columns="2">
+					<f:facet name="header">
+						<p:outputLabel value="#{clienteAddEditMB.title}" />
+					</f:facet>
+
+					<p:outputLabel value="#{labels.costumer_id}: *" rendered="#{clienteAddEditMB.id != null}"/>
+					<p:inputText value="#{clienteAddEditMB.id}" 
+						disabled="true" rendered="#{clienteAddEditMB.id != null}"/>
+					
+					<p:outputLabel value="#{labels.costumer_name}: *" />
+					<p:inputText value="#{clienteAddEditMB.nome}" maxlength="50"
+						required="true" requiredMessage="#{labels.costumer_name_required}" />
+
+					<p:outputLabel value="#{labels.costumer_address}: *" />
+					<p:inputText value="#{clienteAddEditMB.endereco}" maxlength="100"
+						required="true" requiredMessage="#{labels.costumer_address_required}" />
+						
+					<p:outputLabel value="#{labels.costumer_phone}: *" />
+					<p:inputText value="#{clienteAddEditMB.telefone}" maxlength="20"
+						required="true" requiredMessage="#{labels.costumer_phone_required}" />
+
+					<p:outputLabel for="mask" value="#{labels.costumer_born}: " />
+					<p:calendar id="mask" value="#{clienteAddEditMB.nascimento}"
+						pattern="dd-MM-yyyy" mask="true" />
+
+					<p:outputLabel value="#{labels.costumer_email}: " />
+					<p:inputText value="#{clienteAddEditMB.email}" maxlength="50"/>
+					
+					<p:outputLabel value="#{labels.user_cpf}: *" />
+					<p:inputMask id="cpf" value="#{clienteAddEditMB.cpf}"
+						mask="999.999.999-99" required="ture" disabled="#{clienteAddEditMB.disableCpfEdit}"
+						requiredMessage="#{labels.user_cpf_required}" />
+
+					<f:facet name="footer">
+						<p:row>
+							<p:outputPanel style="width: 100%; text-align:center"
+								layout="block">
+
+								<p:commandButton value="#{labels.button_save}"
+									actionListener="#{clienteAddEditMB.save}"
+									style="margin: 130 auto;" ajax="false"
+									onerror="#{clienteAddEditMB.stay()}" />
+								<p:commandButton value="#{labels.button_cancel}"
+									actionListener="#{clienteAddEditMB.cancel}"
+									style="margin: 130 auto;" ajax="false" immediate="true" />
+							</p:outputPanel>
+						</p:row>
+					</f:facet>
+				</p:panelGrid>
+
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui" template="../main.xhtml">
+
+	<ui:define name="content">
+		<div align="center">
+			<h:form>
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+				<h:inputHidden value="#{mesaAddEditMB.id}" />
+				<h:inputHidden value="#{mesaAddEditMB.capacidade}" />
+				<h:inputHidden value="#{mesaAddEditMB.estadoMesa}" />
+				<p:panelGrid columns="2">
+					<f:facet name="header">
+						<p:outputLabel value="#{mesaAddEditMB.title}" />
+					</f:facet>
+
+					<p:outputLabel value="#{labels.table_id}: *" rendered="#{mesaAddEditMB.id != null}"/>
+					<p:inputText value="#{mesaAddEditMB.id}" 
+						disabled="true" rendered="#{mesaAddEditMB.id != null}"/>
+					
+					<p:outputLabel value="#{labels.table_ip}: *" />
+					<p:inputText value="#{mesaAddEditMB.ipTerminal}" placeholder="___.___.___"
+						required="true" requiredMessage="#{labels.table_name_required}" maxlength="15"/>
+
+					<p:outputLabel value="#{labels.table_capacity}: *" />
+					<p:selectOneMenu id="capacidades" value="#{mesaAddEditMB.capacidadeDesc}"
+						effect="fade" >
+						<f:selectItems value="#{mesaAddEditMB.capacidades}" />
+					
+					<p:ajax event="change" update="capacidades" listener="#{mesaAddEditMB.selectCapacidade}"/>
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="#{labels.table_status}: *" />
+					<p:selectOneMenu id="estados" value="#{mesaAddEditMB.estadoDesc}"
+						effect="fade" >
+						<f:selectItems value="#{mesaAddEditMB.estados}" />
+					
+					<p:ajax event="change" update="estados" listener="#{mesaAddEditMB.selectEstadoMesa}" />
+					</p:selectOneMenu>
+					
+					<f:facet name="footer">
+						<p:row>
+							<p:outputPanel style="width: 100%; text-align:center"
+								layout="block">
+
+								<p:commandButton value="#{labels.button_save}"
+									actionListener="#{mesaAddEditMB.save}"
+									style="margin: 130 auto;" ajax="false"
+									process="func"
+									onerror="#{mesaAddEditMB.stay()}" />
+								<p:commandButton value="#{labels.button_cancel}"
+									actionListener="#{mesaAddEditMB.cancel}"
+									style="margin: 130 auto;" ajax="false" immediate="true" />
+							</p:outputPanel>
+						</p:row>
+					</f:facet>
+				</p:panelGrid>
+
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
